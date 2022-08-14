@@ -45,13 +45,13 @@ dbg: LDFLAGS  += -fsanitize=undefined
 #-s ASSERTIONS=1
 dbg: $(TARGETS)
 
-$(TARGETS): $(OBJ_SUBDIRS) $(OBJ_FILES)
+$(TARGETS): $(OBJ_SUBDIRS) $(OBJ_FILES) $(DIST_DIR)
 	$(CC) -o $(DIST_DIR)/$(TARGET_NAME).js $(OBJ_FILES) $(LDFLAGS)
 	
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
 	$(CC) -MMD -MP $(CPPFLAGS) -c $< -o $@
 
-$(OBJ_SUBDIRS):
+$(OBJ_SUBDIRS) $(DIST_DIR):
 	mkdir -p $@
 
 clean:

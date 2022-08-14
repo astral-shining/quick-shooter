@@ -24,8 +24,9 @@ struct Triangle {
     R"(#version 300 es
     precision mediump float;
     out vec4 FragColor;
+    uniform float u_time;
     void main() {
-        FragColor = vec4(0.0f, 0.5f, 1.0f, 1.0f);
+        FragColor = vec4(cos(gl_FragCoord.x / 10.f)/2.f + 0.5f, sin(gl_FragCoord.y/10.f)/2.f+0.5, 1.0f, 1.0f);
     })"
     };
     GL::VAO vao;

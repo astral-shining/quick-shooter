@@ -1,3 +1,4 @@
-dist/
+dist/*
+!dist/index.html
 build/
 .vscode/
