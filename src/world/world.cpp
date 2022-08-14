@@ -12,8 +12,6 @@ World::World() {
 }
 
 void World::update() {
-    glClear(GL_COLOR_BUFFER_BIT);
-    glClearColor(0, 0, 0, 1);
     static Triangle triangle;
     camera.update();
     player.update();
@@ -22,5 +20,5 @@ void World::update() {
 
 void World::updateUniforms(GL::Shader& s) {
     s.uniform("u_time", (float) time.now);
-    s.uniform("u_res", (glm::vec2) window.size);
+    s.uniform("u_res", (glm::vec2) window->size);
 }

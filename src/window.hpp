@@ -1,13 +1,15 @@
 #pragma once 
 #include <string>
 #include <glm/vec2.hpp>
+#include <memory>
+
+inline const char* idcanvas = "#quick-canvas";
 
 namespace QE {
 
 struct Window {
     std::string title;
     glm::uvec2 size;
-    const char* idcanvas {"#quick-canvas"};
     Window(std::string title="title");
     void setTitle(std::string title);
     void onResize(int w, int h);
@@ -23,6 +25,6 @@ struct Window {
     ~Window();*/
 };
 
-extern Window window;
+extern std::unique_ptr<Window> window;
 
 };

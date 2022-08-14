@@ -38,7 +38,7 @@ bool Input::getKey(uint16_t key) {
 
 bool Input::getKeyDown(uint16_t key) {
     auto& k = keys[key];
-    return k == 0 ? ++k : false;
+    return k == 1 ? k++ : false;
 }
 
 void Input::onMouseCallback(int eventType, const EmscriptenMouseEvent *mouseEvent) {

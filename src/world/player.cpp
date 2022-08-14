@@ -30,6 +30,6 @@ void Player::update() {
     if (input.getKey(Keys::D)) {
         direction += glm::vec3(-camera_direction.z, 0.0f, camera_direction.x);
     }
-    
+    std::printf("%s\n", glm::to_string(direction).data());    
     transform.position += direction * glm::vec3(time.delta);
 }

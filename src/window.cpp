@@ -13,9 +13,7 @@ Window::Window(std::string title) {
 		static_cast<Window*>(userData)->onResize(uiEvent->windowInnerWidth, uiEvent->windowInnerHeight);
 		return true;
 	});
-    emscripten_set_canvas_element_size(idcanvas, width, height);
-    size.x = width;
-    size.y = height;
+    onResize(width, height);
     emscripten_set_dblclick_callback("body", this, true, [] (int eventType, const EmscriptenMouseEvent *mouseEvent, void *userData) -> EM_BOOL {
         static_cast<Window*>(userData)->enableFullScreen();
         return true;
@@ -29,6 +27,8 @@ void Window::setTitle(std::string t) {
 }
 
 void Window::onResize(int w, int h) {
+    w /= 5;
+    h /= 5;
     size.x = w;
     size.y = h;
     emscripten_set_canvas_element_size(idcanvas, w, h);
@@ -46,4 +46,5 @@ void Window::enableFullScreen() {
         });
     );
 }
-Window QE::window;
+
+std::unique_ptr<Window> QE::window;
