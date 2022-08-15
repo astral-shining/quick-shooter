@@ -27,8 +27,9 @@ void Window::setTitle(std::string t) {
 }
 
 void Window::onResize(int w, int h) {
-    w /= 5;
-    h /= 5;
+    float aspect_ratio = (float)w/h;
+    w = 100*aspect_ratio;
+    h = 100;
     size.x = w;
     size.y = h;
     emscripten_set_canvas_element_size(idcanvas, w, h);

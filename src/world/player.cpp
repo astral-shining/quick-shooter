@@ -19,24 +19,24 @@ void Player::update() {
     camera.pitch -= input->mouseMovement.y * sensivity;
     camera.transform.position = transform.position;
 
+    float dir_x = cos(glm::radians(camera.yaw));
+    float dir_z = sin(glm::radians(camera.yaw));
+
     glm::vec3 direction {};
-    glm::vec3 camera_direction = world->camera.direction;
-    //glm::vec3 direction = current_world->camera.direction * glm::vec3(time.delta);
     if (input->getKey(Keys::W)) {
-        direction += glm::vec3(camera_direction.x, 0.0f, camera_direction.z);
+        direction += glm::vec3(dir_x, 0.0f, dir_z);
     }
 
     if (input->getKey(Keys::S)) {
-        direction += glm::vec3(-camera_direction.x, 0.0f, -camera_direction.z);
+        direction += glm::vec3(-dir_x, 0.0f, -dir_z);
     }
 
     if (input->getKey(Keys::A)) {
-        direction += glm::vec3(camera_direction.z, 0.0f, -camera_direction.x);
+        direction += glm::vec3(dir_z, 0.0f, -dir_x);
     }
 
     if (input->getKey(Keys::D)) {
-        direction += glm::vec3(-camera_direction.z, 0.0f, camera_direction.x);
+        direction += glm::vec3(-dir_z, 0.0f, dir_x);
     }
-    std::printf("%s\n", glm::to_string(direction).data());    
     transform.position += direction * glm::vec3(time->delta);
 }
