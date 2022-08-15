@@ -1,5 +1,6 @@
 #pragma once
 #include <cstdint>
+#include <memory>
 
 namespace QE {
 
@@ -11,6 +12,6 @@ struct Time {
     
 };
 
-extern Time time;
+extern std::unique_ptr<Time> time;
 
 };

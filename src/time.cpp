@@ -27,4 +27,4 @@ void Time::update() {
 	}
 }
 
-Time QE::time;
+std::unique_ptr<Time> QE::time;

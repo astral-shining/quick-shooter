@@ -45,7 +45,7 @@ struct Triangle {
     void render() {
         shader.use();
         vao.use();
-        glm::mat4 mvp = current_world->camera.getMatrix() * transform.getMatrix();
+        glm::mat4 mvp = world->camera.getMatrix() * transform.getMatrix();
         shader.uniform("u_MVP", mvp);
         glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
     }

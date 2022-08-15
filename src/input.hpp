@@ -2,6 +2,7 @@
 #include <array>
 #include <cstdint>
 #include <glm/vec2.hpp>
+#include <memory>
 
 struct EmscriptenKeyboardEvent;
 struct EmscriptenMouseEvent;
@@ -22,7 +23,7 @@ private:
     void onMouseCallback(int eventType, const EmscriptenMouseEvent *mouseEvent);
 };
 
-extern Input input;
+extern std::unique_ptr<Input> input;
 
 enum Keys {
     SPACE = 32,

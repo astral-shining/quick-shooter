@@ -46,4 +46,4 @@ void Input::onMouseCallback(int eventType, const EmscriptenMouseEvent *mouseEven
 }
 
 
-Input QE::input;
+std::unique_ptr<Input> QE::input;

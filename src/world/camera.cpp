@@ -6,7 +6,7 @@
 using namespace QE;
 
 Camera::Camera() {
-    transform.position.z = -1;
+//    transform.position.z = -1;
 }
 
 glm::mat4 Camera::getMatrix() {
@@ -16,12 +16,7 @@ glm::mat4 Camera::getMatrix() {
 void Camera::update() {
     // float w = window.size.x/(200+(zoom*10));
     // float h = window.size.y/(200+(zoom*10));
-
-    // follow player
-    transform = current_world->player.transform;
-    yaw += input.mouseMovement.x * sensitivity;
-    pitch -= input.mouseMovement.y * sensitivity;
-    pitch = glm::clamp(pitch, -85.f, 85.f);
+    pitch = glm::clamp(pitch, -89.f, 89.f);
     direction.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
     direction.y = sin(glm::radians(pitch));
     direction.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));

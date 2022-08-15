@@ -2,6 +2,7 @@
 #include "camera.hpp"
 #include "player.hpp"
 #include <gl/shader.hpp>
+#include <memory>
 
 namespace QE {
 
@@ -13,6 +14,5 @@ struct World {
     void updateUniforms(GL::Shader& s);
 };
 
-inline World* current_world;
-
+extern std::unique_ptr<World> world;
 };

@@ -91,7 +91,7 @@ Shader::Shader(const char* vSource_, const char* fSource_) : vSource(vSource_), 
 
 void Shader::use() {
     glUseProgram(program);
-    current_world->updateUniforms(*this);
+    world->updateUniforms(*this);
     current_shader = this;
 }
 
