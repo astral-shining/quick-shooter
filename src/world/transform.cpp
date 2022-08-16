@@ -3,17 +3,26 @@
 
 using namespace QE;
 
-static float clampRotation(float n) {
-    return fmod(n, 180.f);
+inline static void clampRotation(float& f) {
+    f -= 360 * (int)(f/180);
 }
 
-glm::mat4 Transform::getMatrix() {
-    glm::mat4 m { 1.f };
-    m = glm::translate(m, position);
-    m = glm::rotate(m, glm::radians(90.f), glm::vec3(0.0f, 0.0f, 1.0f));
-    //m = glm::rotate(m, glm::radians(clampRotation(rotation.z)), glm::vec3(0.0f, 0.0f, 1.0f));
-    //m = glm::rotate(m, glm::radians(clampRotation(rotation.x)), glm::vec3(1.0f, 0.0f, 0.0f));
-    
-    m = glm::scale(m, scale);
-    return m;
+Transform::operator glm::mat4() const {
+    return model;
 }
+
+void Transform::update() {
+    model = glm::mat4 { 1.f };
+    model = glm::translate(model, position);
+
+    clampRotation(rotation.x);
+    clampRotation(rotation.y);
+    clampRotation(rotation.z);
+
+    model = glm::rotate(model, glm::radians(rotation.x), glm::vec3(1.0f, 0.0f, 0.0f));
+    model = glm::rotate(model, glm::radians(rotation.y), glm::vec3(0.0f, 1.0f, 0.0f));
+    model = glm::rotate(model, glm::radians(rotation.z), glm::vec3(0.0f, 0.0f, 1.0f));
+    
+    model = glm::scale(model, scale);
+}
+

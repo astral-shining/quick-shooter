@@ -1,6 +1,8 @@
 #pragma once
 #include "camera.hpp"
 #include "player.hpp"
+#include "triangle.hpp"
+
 #include <gl/shader.hpp>
 #include <memory>
 
@@ -10,6 +12,7 @@ struct World {
     World();
     Camera camera;
     Player player;
+    Triangle triangle;
     void update();
     void updateUniforms(GL::Shader& s);
 };

@@ -3,8 +3,9 @@
 #include <gl/vbo.hpp>
 #include <gl/shader.hpp>
 #include <GLES3/gl3.h>
-#include <world/world.hpp>
+//#include <world/world.hpp>
 #include <glm/gtx/string_cast.hpp>
+#include <time.hpp>
 
 #include "transform.hpp"
 
@@ -16,10 +17,12 @@ struct Triangle {
     R"(#version 300 es
     precision mediump float;
     uniform float u_time;
-    uniform mat4 u_MVP;
+    uniform mat4 u_model;
+    uniform mat4 u_view;
+    uniform mat4 u_proj;
     in vec2 aPos;
     void main() {
-       gl_Position = u_MVP * vec4(aPos, 0.f, 1.f);
+       gl_Position = u_proj * u_view * u_model * vec4(aPos, 0.f, 1.f);
     })",
     R"(#version 300 es
     precision mediump float;
@@ -42,11 +45,12 @@ struct Triangle {
         shader.setAttribute({"aPos"}, vbo);
     }
     
-    void render() {
+    void update() {
+        transform.rotation.y += 100 * time->delta;
         shader.use();
         vao.use();
-        glm::mat4 mvp = world->camera.getMatrix() * transform.getMatrix();
-        shader.uniform("u_MVP", mvp);
+        transform.update();
+        shader.uniform("u_model", transform.model);
         glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
     }
 };

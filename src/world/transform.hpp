@@ -10,8 +10,11 @@ struct Transform {
     glm::vec3 scale {1, 1, 1};
     glm::vec3 rotation {};
     glm::vec3 position {};
+    glm::mat4 model;
 
-    glm::mat4 getMatrix();
+    operator glm::mat4() const;
+    void update();
+
 };
 
 };

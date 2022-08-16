@@ -9,8 +9,8 @@ Camera::Camera() {
 //    transform.position.z = -1;
 }
 
-glm::mat4 Camera::getMatrix() {
-    return projection * view;
+glm::mat4 Camera::getPV() const {
+    return proj * view;
 }
 
 void Camera::update() {
@@ -25,7 +25,6 @@ void Camera::update() {
 
     //std::printf("%f %f\n", yaw, pitch);
     // set projection
-    projection = glm::perspective(glm::radians(fov), (float)window->size.x / window->size.y, 0.1f, 100.0f);
+    proj = glm::perspective(glm::radians(fov), (float)window->size.x / window->size.y, 0.1f, 100.0f);
     
-       //glm::ortho(-w, w, -h, h, 0.1f, 1000.0f);
 }
