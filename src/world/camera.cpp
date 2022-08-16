@@ -5,7 +5,11 @@
 
 using namespace QE;
 
-Camera::Camera() {
+Camera::Camera() : 
+    fov(90), 
+    yaw(90),
+    pitch(),
+    directionUp(0.0f, 1.0f, 0.0f) {
 //    transform.position.z = -1;
 }
 
@@ -25,6 +29,6 @@ void Camera::update() {
 
     //std::printf("%f %f\n", yaw, pitch);
     // set projection
-    proj = glm::perspective(glm::radians(fov), (float)window->size.x / window->size.y, 0.1f, 100.0f);
+    proj = glm::perspective(glm::radians(fov), (float)window->size.x / window->size.y, 0.001f, 100.0f);
     
 }

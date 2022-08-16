@@ -10,11 +10,12 @@ namespace QE {
 
 struct Camera {
     Transform transform;
-    float fov { 90 };
-    float yaw {0};
-    float pitch {0};
-    glm::vec3 direction {0.0f, 0.0f, -1.0f};
-    glm::vec3 directionUp {0.0f, 1.0f, 0.0f};
+    float fov;
+    float yaw;
+    float pitch;
+    glm::vec3 directionUp;
+
+    glm::vec3 direction;
     glm::mat4 proj;
     glm::mat4 view;
 

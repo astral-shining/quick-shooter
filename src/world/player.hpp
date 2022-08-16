@@ -1,12 +1,13 @@
 #pragma once
-#include "transform.hpp"
+#include "physics.hpp"
 #include <glm/mat4x4.hpp>
 
 namespace QE {
 
 struct Player {
+    bool jumping;
     Player();
-    Transform transform;
+    Physics physics;
     void update();
 };
 

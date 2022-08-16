@@ -15,7 +15,8 @@ Window::Window(std::string title) {
 	});
     onResize(width, height);
     emscripten_set_dblclick_callback("body", this, true, [] (int eventType, const EmscriptenMouseEvent *mouseEvent, void *userData) -> EM_BOOL {
-        static_cast<Window*>(userData)->enableFullScreen();
+        //static_cast<Window*>(userData)->enableFullScreen();
+        static_cast<Window*>(userData)->lockPointer();
         return true;
     });
 
@@ -28,8 +29,9 @@ void Window::setTitle(std::string t) {
 
 void Window::onResize(int w, int h) {
     float aspect_ratio = (float)w/h;
-    w = 100*aspect_ratio;
-    h = 100;
+    h = 200;
+    w = h*aspect_ratio;
+
     size.x = w;
     size.y = h;
     emscripten_set_canvas_element_size(idcanvas, w, h);

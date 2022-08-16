@@ -9,10 +9,11 @@
 namespace QE {
 
 struct World {
-    World();
     Camera camera;
-    Player player;
     Triangle triangle;
+    Player player;
+
+    World();
     void update();
     void updateUniforms(GL::Shader& s);
 };

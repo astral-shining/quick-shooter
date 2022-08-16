@@ -8,7 +8,6 @@
 using namespace QE;
 
 World::World() {
-    //current_world = this;
 }
 
 void World::update() {
