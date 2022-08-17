@@ -29,13 +29,10 @@ void Input::update() {
 }
 
 void Input::onKeyCallback(int eventType, const EmscriptenKeyboardEvent *keyEvent) {
-    auto& k = keys[keyEvent->keyCode];
-    int e = (eventType -3) * -1;
-    if (e == 1 && k <= 1) {
-        k++;
-    } else if (e == 0) {
-        k = 0;
+    if (keyEvent->repeat) {
+        return;
     }
+    keys[keyEvent->keyCode] = (eventType -3) * -1;
 }
 
 bool Input::getKey(uint16_t key) {
@@ -43,7 +40,8 @@ bool Input::getKey(uint16_t key) {
 }
 
 bool Input::getKeyDown(uint16_t key) {
-    return keys[key] == 1;
+    auto& k = keys[key];
+    return k == 1 ? k++ : false;
 }
 
 void Input::onMouseCallback(int eventType, const EmscriptenMouseEvent *mouseEvent) {

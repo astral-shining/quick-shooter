@@ -33,15 +33,13 @@ VBO& VBO::operator=(VBO&& other) {
 
 void VBO::create() {
     glGenBuffers(1, &id);
-    std::printf("create vbo: %d\n", id);
+    std::printf("created vbo: %d\n", id);
 }
 
 void VBO::destroy() {
-    if (id) {
-        glDeleteBuffers(1, &id);
-        std::printf("destroy vbo: %d\n", id);
-        id = 0;
-    }
+    glDeleteBuffers(1, &id);
+    std::printf("destroyed vbo: %d\n", id);
+    id = 0;
 }
 
 VBO::~VBO() {
