@@ -29,6 +29,6 @@ void Camera::update() {
 
     //std::printf("%f %f\n", yaw, pitch);
     // set projection
-    proj = glm::perspective(glm::radians(fov), (float)window->size.x / window->size.y, 0.001f, 100.0f);
+    proj = glm::perspective(glm::radians(fov), (float)window->size.x / window->size.y, 0.001f, 10000.0f);
     
 }

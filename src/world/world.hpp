@@ -1,7 +1,8 @@
 #pragma once
 #include "camera.hpp"
 #include "player.hpp"
-#include "triangle.hpp"
+#include "light.hpp"
+#include "map.hpp"
 
 #include <gl/shader.hpp>
 #include <memory>
@@ -10,7 +11,8 @@ namespace QE {
 
 struct World {
     Camera camera;
-    Triangle triangle;
+    Light light;
+    Map map;
     Player player;
 
     World();

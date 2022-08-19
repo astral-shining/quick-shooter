@@ -8,7 +8,7 @@
 
 using namespace QE;
 Player::Player() {
-    physics.transform.position.z = -1.f;
+    physics.transform.position.z = -5.f;
     physics.gravity = 0.1f;
     world->camera.yaw = 90.f;
 }
@@ -52,6 +52,6 @@ void Player::update() {
     }
 
 
-    position += direction * glm::vec3(time->delta);
+    position += direction * glm::vec3(time->delta) * 10.f;
     camera.transform.position = position;
 }

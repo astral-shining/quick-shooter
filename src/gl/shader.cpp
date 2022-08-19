@@ -4,6 +4,7 @@
 #include <cstdio>
 #include <util/die.hpp>
 #include <world/world.hpp>
+#include <cstdio>
 
 using namespace QE::GL;
 
@@ -30,7 +31,7 @@ Shader::Shader(const char* vSource_, const char* fSource_) : vSource(vSource_), 
 
     glGetShaderiv(fs, GL_COMPILE_STATUS, &success);
     if(!success) {
-        glGetShaderInfoLog(vs, 512, NULL, infoLog);
+        glGetShaderInfoLog(fs, 512, NULL, infoLog);
         die("ERROR: Compiling fragment shader %s", infoLog);
     }
 
@@ -67,7 +68,7 @@ Shader::Shader(const char* vSource_, const char* fSource_) : vSource(vSource_), 
     GLint count;
     glGetProgramiv(program, GL_ACTIVE_ATTRIBUTES, &count);
     for (int i {}; i < count; i++) {
-        char name[16];
+        char name[32];
         GLenum type;
         int size;
         glGetActiveAttrib(program, (GLuint)i, sizeof(name), NULL, &size, &type, name);
@@ -79,7 +80,7 @@ Shader::Shader(const char* vSource_, const char* fSource_) : vSource(vSource_), 
 
     glGetProgramiv(program, GL_ACTIVE_UNIFORMS, &count);
     for (int i{}; i < count; i++) {
-        char name[16];
+        char name[32];
         GLenum type;
         glGetActiveUniform(program, (GLuint) i, sizeof(name), NULL, NULL, &type, name);
         uniforms[name].location = glGetUniformLocation(program, name);
@@ -95,16 +96,20 @@ void Shader::use() {
     current_shader = this;
 }
 
-void Shader::setAttribute(std::initializer_list<const char*> arr, VBO& vbo) {
+void Shader::setAttribute(std::initializer_list<Attr> arr, VBO& vbo) {
     uint32_t size_row {};
-    for (auto name : arr) {
-        size_row += attribs[name].size;
+    for (auto attr : arr) {
+        size_row += attr.str ? attribs[attr.str].size : attr.size;
     }
 
     uint32_t c {};
-    for (auto name : arr) {
-        uint32_t size = attribs[name].size;
-        AttribInfo& info = attribs[name];
+    for (auto attr : arr) {
+        if (!attr.str) {
+            c += attr.size;
+            continue;
+        }
+        uint32_t size = attribs[attr.str].size;
+        AttribInfo& info = attribs[attr.str];
         glVertexAttribPointer(
             info.index,
             size,

@@ -35,7 +35,13 @@ public:
 
     void use();
 
-    void setAttribute(std::initializer_list<const char*> arr, VBO&);
+    struct Attr {
+        const char* str {};
+        uint32_t size;
+        constexpr Attr(const char* str) : str(str) {}
+        constexpr Attr(uint32_t size) : size(size) {}
+    };
+    void setAttribute(std::initializer_list<Attr> arr, VBO&);
 
     void uniform(const char*, const int);
     void uniform(const char*, const glm::vec2&);
