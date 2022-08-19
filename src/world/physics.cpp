@@ -5,7 +5,7 @@ using namespace QE;
 
 void Physics::update() {
     transform.update();
-    transform.position += force;
+    transform.position += force * glm::vec3(time->delta);
     force.y -= gravity * time->delta;
 
     if (transform.position.y <= 0) {

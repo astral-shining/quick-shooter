@@ -9,7 +9,7 @@
 using namespace QE;
 Player::Player() {
     physics.transform.position.z = -5.f;
-    physics.gravity = 0.1f;
+    physics.gravity = 20.f;
     world->camera.yaw = 90.f;
 }
 
@@ -43,7 +43,7 @@ void Player::update() {
     }
 
     if (input->getKey(Keys::SPACE) && !jumping) {
-        physics.force.y = 0.05f;
+        physics.force.y = 20.f;
         jumping = true;
     }
 
