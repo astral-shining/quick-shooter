@@ -22,11 +22,11 @@ uniform mat4 u_proj;
 in vec3 a_pos;
 in vec2 a_tex_coord;
 
-out vec2 tex_coord;
+out vec3 frag_pos;
 
 void main() {
-    tex_coord = a_tex_coord;
-    gl_Position = u_proj * u_view * u_model * vec4(a_pos, 1.);
+    frag_pos = vec3(u_model * vec4(a_pos + vec3(0.0, 5.f, 0.0), 1.));
+    gl_Position = u_proj * u_view * vec4(a_pos, 1.);
 })"
 };
 
@@ -35,24 +35,27 @@ R"(#version 300 es
 precision mediump float;
 
 in vec2 tex_coord;
+in vec3 frag_pos;
 
 out vec4 frag_color;
 
 uniform float u_time;
 
-vec3 getPixel(in vec2 pos) {
-	float n = 0.01f;
-	float line_size = 0.0008f;
+vec3 getPixel(in vec3 pos) {
+	float n = 5.2f;
+	float line_size = 0.3f;
 	float r = n+line_size;
-    float p = clamp(float(int(mod(pos.x, r)/n) + int(mod(pos.y, r)/n)), 0., 1.);
+    float p = float(
+        int(mod(pos.x, r)/n) | int(mod(pos.y, r)/n) | int(mod(pos.z, r)/n)
+    );
     return vec3(
 		0., 
 		p, 
-		p * 0.5f
+		p * 0.5
 	);
 }
 
-vec3 sampleTextureWithFilter(in vec2 pos, in vec2 uvwX, in vec2 uvwY, in float detail) {
+vec3 sampleTextureWithFilter(in vec3 pos, in vec3 uvwX, in vec3 uvwY, in float detail) {
     int sx = 1 + int(clamp(detail*length(uvwX-pos), 0., 8.));
     int sy = 1 + int(clamp(detail*length(uvwY-pos), 0., 8.));
 
@@ -68,12 +71,12 @@ vec3 sampleTextureWithFilter(in vec2 pos, in vec2 uvwX, in vec2 uvwY, in float d
 }
 
 void main() {
-	vec2 fp_der = dFdx(tex_coord);
-	vec2 fp_abj = dFdy(tex_coord);
+	vec3 fp_der = dFdx(frag_pos);
+	vec3 fp_abj = dFdy(frag_pos);
 	float detail = 1024.;
 
 	frag_color = vec4(
-		sampleTextureWithFilter(tex_coord, tex_coord + fp_der, tex_coord + fp_abj, detail),
+		sampleTextureWithFilter(frag_pos, frag_pos + fp_der, frag_pos + fp_abj, detail),
 		1.
 	);
 }
@@ -84,7 +87,7 @@ Map::Map(Model& model) :
     model(model),
     shader(vs, fs),
     vbo(model.data) {
-    shader.setAttribute({"a_pos", "a_tex_coord", 3}, vbo);
+    shader.setAttribute({"a_pos", 5}, vbo);
 
 }
     

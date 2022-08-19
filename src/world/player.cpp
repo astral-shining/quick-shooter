@@ -9,7 +9,7 @@
 using namespace QE;
 Player::Player() {
     physics.transform.position.z = -5.f;
-    physics.gravity = 20.f;
+    physics.gravity = 60.f;
     world->camera.yaw = 90.f;
 }
 
@@ -18,7 +18,7 @@ void Player::update() {
     auto& position = physics.transform.position;
     auto& camera = world->camera;
 
-    float sensivity = 0.1f;
+    float sensivity = 0.3f;
     camera.yaw += input->mouseMovement.x * sensivity;
     camera.pitch -= input->mouseMovement.y * sensivity;
 
@@ -43,15 +43,15 @@ void Player::update() {
     }
 
     if (input->getKey(Keys::SPACE) && !jumping) {
-        physics.force.y = 20.f;
+        physics.force.y = 30.f;
         jumping = true;
     }
 
-    if (position.y == 0) {
+    if (position.y == 5.f) {
         jumping = false;
     }
 
 
-    position += direction * glm::vec3(time->delta) * 10.f;
+    position += direction * glm::vec3(time->delta) * 30.f;
     camera.transform.position = position;
 }

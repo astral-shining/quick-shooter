@@ -29,7 +29,7 @@ void Window::setTitle(std::string t) {
 
 void Window::onResize(int w, int h) {
     float aspect_ratio = (float)w/h;
-    h = 200;
+    h = 100;
     w = h*aspect_ratio;
 
     size.x = w;

@@ -8,8 +8,8 @@ void Physics::update() {
     transform.position += force * glm::vec3(time->delta);
     force.y -= gravity * time->delta;
 
-    if (transform.position.y <= 0) {
-        transform.position.y = 0;
+    if (transform.position.y <= 5.f) {
+        transform.position.y = 5.f;
         force.y = 0;
     }
 }
