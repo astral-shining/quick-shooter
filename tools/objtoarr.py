@@ -13,7 +13,7 @@ name = os.path.basename(args.file).split(".")[0]
 data = {
 }
 models = {}
-current_model = ""
+current_model = "undefined"
 
 for line in f_content:
     cols = line.split(" ")
@@ -21,6 +21,8 @@ for line in f_content:
         current_model = cols[1]
         models[current_model] = []
     elif cols[0] == "f":
+        if current_model == "undefined":
+            models["undefined"] = []
         f = [i.split("/") for i in cols[1:]]
         models[current_model].append([[data[list(data.keys())[j]][int(i[j])-1] for j in range(len(data.keys()))] for i in f])
         #[m[current_m][n[i]][int()] for i in range(len(n))])

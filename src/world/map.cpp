@@ -111,7 +111,7 @@ void Map::update() {
 
     for (const auto& face : physics.collision.model) {
         if (isInArea(face, world->player.physics.transform.position)) {
-            std::printf("ñ\n");
+            
         }
     }
 }
