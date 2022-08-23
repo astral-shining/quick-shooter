@@ -2,19 +2,20 @@
 
 #include <gl/shader.hpp>
 
-#include <models/map.hpp>
+#include <models/map1.hpp>
 #include <time.hpp>
 #include <input.hpp>
 
 using namespace QE;
 
-World::World() : map(map_model) {
+World::World() : map(map1_model) {
 }
 
 void World::update() {
     camera.update();
     map.update();
     player.update();
+    box.update();
 }
 
 void World::updateUniforms(GL::Shader& s) {

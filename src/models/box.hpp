@@ -1,4 +1,4 @@
 #pragma once
 #include "model.hpp"
 
-extern Model map_model;
+extern Model box_model;

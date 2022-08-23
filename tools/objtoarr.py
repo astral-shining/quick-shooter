@@ -9,28 +9,26 @@ args = parser.parse_args()
 f = open(args.file, "r")
 f_content = f.read().split("\n")[:-1]
 
-name = os.path.splitext(args.file)[0]
-n = ["v", "vt", "vn"]
-m = {}
-current_m = ""
+name = os.path.basename(args.file).split(".")[0]
+data = {
+}
+models = {}
+current_model = ""
+
 for line in f_content:
     cols = line.split(" ")
     if cols[0] == "o":
-        current_m = cols[1]
-        m[current_m] = {
-            "data": []
-        }
-        for i in n:
-            m[current_m][i] = []
-
+        current_model = cols[1]
+        models[current_model] = []
     elif cols[0] == "f":
         f = [i.split("/") for i in cols[1:]]
-        m[current_m]["data"].append([[m[current_m][n[j]][int(i[j])-1] for j in range(len(n))] for i in f])
+        models[current_model].append([[data[list(data.keys())[j]][int(i[j])-1] for j in range(len(data.keys()))] for i in f])
         #[m[current_m][n[i]][int()] for i in range(len(n))])
         #m[current_m]["data"].append()
-    elif cols[0] in n:
-        #m[current_m][cols[1]].append(cols[1:])
-        m[current_m][cols[0]].append(list(map(lambda x: x+"f", cols[1:])))
+    elif cols[0] in ["v", "vt", "vn"]:
+        if not cols[0] in data:
+            data[cols[0]] = []
+        data[cols[0]].append(list(map(lambda x: str(float(x))+"f", cols[1:])))
 
 #print(m)
 
@@ -40,17 +38,17 @@ hpp = """#pragma once
 """
 cpp = "#include \"{}.hpp\"\n".format(name)
 
-for k,v in m.items():
+for k,v in models.items():
     hpp += "extern Model " + k + "_model;\n"
-    cpp += "Model " + k + "_model {{\n"
+    cpp += "Model " + k + "_model {\n"
     c = 0
-    for face in v["data"]:
+    for face in v:
+        cpp += "{\n"
         for vert in face:
-            cpp += "    " + ",    ".join([", ".join(i) for i in vert]) + ",\n"
+            cpp += "    glm::vec3{" + "},    {".join([", ".join(i) for i in vert]) + "},\n"
             c += 1
-        cpp += "\n"
-    cpp += "},\n\n"
-    cpp += "    {}\n}};".format(c)
+        cpp += "},\n"
+    cpp += "};\n"
 
 
 export_path = "src/models/" + name

@@ -8,16 +8,17 @@
 #include <time.hpp>
 #include <models/model.hpp>
 
+#include "physics.hpp"
 #include "transform.hpp"
 
 namespace QE {
 
 struct Map {
-    Model& model;
-    Transform transform;
+    Physics physics;
     GL::Shader shader;
     GL::VAO vao;
     GL::VBO vbo;
+    Transform transform;
     Map(Model& map_data);
     void update();
 

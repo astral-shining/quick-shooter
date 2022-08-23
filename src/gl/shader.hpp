@@ -41,7 +41,7 @@ public:
         constexpr Attr(const char* str) : str(str) {}
         constexpr Attr(uint32_t size) : size(size) {}
     };
-    void setAttribute(std::initializer_list<Attr> arr, VBO&);
+    void setAttribute(std::initializer_list<Attr> arr, const VBO&);
 
     void uniform(const char*, const int);
     void uniform(const char*, const glm::vec2&);

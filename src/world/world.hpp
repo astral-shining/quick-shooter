@@ -3,6 +3,7 @@
 #include "player.hpp"
 #include "light.hpp"
 #include "map.hpp"
+#include "box.hpp"
 
 #include <gl/shader.hpp>
 #include <memory>
@@ -14,6 +15,7 @@ struct World {
     Light light;
     Map map;
     Player player;
+    Box box;
 
     World();
     void update();

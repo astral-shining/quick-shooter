@@ -7,6 +7,7 @@
 #include <time.hpp>
 #include <input.hpp>
 
+#include "world.hpp"
 #include "transform.hpp"
 
 using namespace QE;
@@ -20,13 +21,12 @@ uniform mat4 u_view;
 uniform mat4 u_proj;
 
 in vec3 a_pos;
-in vec2 a_tex_coord;
 
 out vec3 frag_pos;
 
 void main() {
-    frag_pos = vec3(u_model * vec4(a_pos + vec3(0.0, 5.f, 0.0), 1.));
-    gl_Position = u_proj * u_view * vec4(a_pos, 1.);
+    frag_pos = a_pos+vec3(0., .5, 0.);
+    gl_Position = u_proj * u_view * u_model * vec4(a_pos, 1.);
 })"
 };
 
@@ -34,7 +34,6 @@ static const char* fs {
 R"(#version 300 es
 precision mediump float;
 
-in vec2 tex_coord;
 in vec3 frag_pos;
 
 out vec4 frag_color;
@@ -50,14 +49,14 @@ vec3 getPixel(in vec3 pos) {
     );
     return vec3(
 		0., 
-		p, 
-		p * 0.5
+		p,
+		p
 	);
 }
 
 vec3 sampleTextureWithFilter(in vec3 pos, in vec3 uvwX, in vec3 uvwY, in float detail) {
-    int sx = 1 + int(clamp(detail*length(uvwX-pos), 0., 8.));
-    int sy = 1 + int(clamp(detail*length(uvwY-pos), 0., 8.));
+    int sx = 5; // 1 + int(clamp(detail*length(uvwX-pos), 0., 8.));
+    int sy = 5; // 1 + int(clamp(detail*length(uvwY-pos), 0., 8.));
 
     vec3 no = vec3( 0.0f );
 
@@ -77,6 +76,7 @@ void main() {
 
 	frag_color = vec4(
 		sampleTextureWithFilter(frag_pos, frag_pos + fp_der, frag_pos + fp_abj, detail),
+		//getPixel(frag_pos),
 		1.
 	);
 }
@@ -84,22 +84,36 @@ void main() {
 };
 
 Map::Map(Model& model) : 
-    model(model),
+    physics(model),
     shader(vs, fs),
-    vbo(model.data) {
-    shader.setAttribute({"a_pos", 5}, vbo);
+    vbo(model) {
+    shader.setAttribute({"a_pos"}, vbo);
+
 
 }
-    
+static float area(const Face& f) {
+    return glm::length(glm::cross(f[1]-f[0], f[2]-f[0]))/2.f;
+}
+
+static bool isInArea(const Face& f, const glm::vec3& p) {
+    float a1 = area({f[0], f[1], p});
+    float a2 = area({f[0], f[2], p});
+    float a3 = area({f[1], f[2], p});
+    return std::abs((a1 + a2 + a3) - area({f[0], f[1], f[2]})) < 0.4f;
+}
+
 void Map::update() {
-    glEnable(GL_DEPTH_TEST);  
     shader.use();
     vao.use();
-    //transform.rotation.y += 100.f * time->delta;
     transform.update();
     shader.uniform("u_model", transform.model);
-    glDrawArrays(GL_TRIANGLES, 0, model.count);
-    glDisable(GL_DEPTH_TEST);
+    glDrawArrays(GL_TRIANGLES, 0, physics.collision.model.size()*3);
+
+    for (const auto& face : physics.collision.model) {
+        if (isInArea(face, world->player.physics.transform.position)) {
+            std::printf("ñ\n");
+        }
+    }
 }
 
 

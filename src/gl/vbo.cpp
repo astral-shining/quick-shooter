@@ -17,6 +17,15 @@ VBO::VBO(std::initializer_list<float> f, uint32_t draw_type) {
     bufferData(draw_type);
 }
 
+VBO::VBO(std::initializer_list<std::array<glm::vec3, 3>> f, uint32_t draw_type) {
+    create();
+    type = GL_FLOAT;
+    type_size = 4;
+    size = f.size()*9;
+    buffer = (void*)f.begin();
+    bufferData(draw_type);
+}
+
 VBO::VBO(uint32_t otherid) : id(otherid) {
 }
 

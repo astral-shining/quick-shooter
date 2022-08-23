@@ -1,6 +1,8 @@
 #pragma once
 #include <cstdint>
 #include <initializer_list>
+#include <glm/vec3.hpp>
+#include <array>
 
 namespace QE::GL {
 
@@ -13,6 +15,8 @@ struct VBO {
     
     VBO();
     VBO(std::initializer_list<float> f, uint32_t draw_type = 0x88E4);
+    VBO(std::initializer_list<std::array<glm::vec3, 3>> f, uint32_t draw_type = 0x88E4);
+
     VBO(uint32_t vbo);
     VBO(VBO&& other);
     VBO& operator=(VBO&& other);

@@ -4,7 +4,7 @@
 using namespace QE; 
 
 EM_JS(void, update_fps, (int n), {
-    const fps = document.getElementById("fps");
+    //const fps = document.getElementById("fps");
     fps.innerHTML = "FPS: " + n;
 });
 

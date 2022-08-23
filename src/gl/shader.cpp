@@ -96,7 +96,7 @@ void Shader::use() {
     current_shader = this;
 }
 
-void Shader::setAttribute(std::initializer_list<Attr> arr, VBO& vbo) {
+void Shader::setAttribute(std::initializer_list<Attr> arr, const VBO& vbo) {
     uint32_t size_row {};
     for (auto attr : arr) {
         size_row += attr.str ? attribs[attr.str].size : attr.size;

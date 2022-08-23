@@ -53,7 +53,8 @@ int main() {
     // std::printf("OpenGL version supported by this platform : %s\n", glGetString(GL_VERSION));
     
     init_uniques(QE::time, QE::window, QE::input, QE::world);
-
+    glEnable(GL_DEPTH_TEST); 
+    
     emscripten_set_main_loop(main_loop, 0, false);
     return 0;
 }

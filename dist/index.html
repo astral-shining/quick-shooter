@@ -1,9 +1,10 @@
 
 <html>
     <head>
-        <script src="./quick.js"></script>
+        <script src="./quick.js" async defer></script>
         <style>
             html, body {
+                user-select: none;
                 margin: 0;
             }
             #quick-canvas {
@@ -11,14 +12,36 @@
                 width: 100%;
                 image-rendering: pixelated;
             }
-            #fps {
+            #info {
                 position: absolute;
                 color: white;
+                display: flex;
+                flex-direction: column;
+            }
+            #player-pointer {
+                position: absolute;
+                background-color: white;
+                width: 5px;
+                height: 5px;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
             }
         </style>
     </head>
     <body>
-        <span id="fps"></span>
+        <div id="player-pointer"></div>
+        <span id="info">
+            <span></span>
+            <span></span>
+        </span>
+
         <canvas id="quick-canvas"></canvas>
     </body>
+    <script>
+        var [
+            fps,
+            player_position
+        ] = document.getElementById("info").children;
+    </script>
 </html>
